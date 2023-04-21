@@ -29,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/.git"
+    "url": "git+https://github.com/Romainlg29/use-wasm.git"
   },
   "keywords": [
     "web",
@@ -42,7 +42,7 @@
   "author": "Romain Le Gall",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/.../issues"
+    "url": "https://github.com/Romainlg29/use-wasm/issues"
   },
   "devDependencies": {
     "@babel/core": "7.21.4",
@@ -75,7 +75,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "typescript": "^5.0.4"
   },
-  "homepage": "https://github.com/...",
+  "homepage": "https://github.com/Romainlg29/use-wasm",
   "peerDependencies": {
     "react": ">=18.0",
     "react-dom": ">=18.0"
