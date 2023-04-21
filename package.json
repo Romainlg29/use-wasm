@@ -1,5 +1,5 @@
 {
-  "name": "use-wasm",
+  "name": "use-wasm-ts",
   "version": "1.0.0",
   "description": "Use WebAssembly in React in a simple way with hooks and Typescript!",
   "types": "./dist/index.d.ts",
