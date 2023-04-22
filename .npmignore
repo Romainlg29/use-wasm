@@ -2,3 +2,9 @@
 build/
 node_modules/
 examples/
+src/*.test.ts
+balel.config.json
+jest.config.json
+.prettierrc
+.eslintrc
+.gitattributes
