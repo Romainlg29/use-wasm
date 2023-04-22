@@ -1,5 +1,9 @@
 # use-wasm-ts
 
+[![Version](https://img.shields.io/npm/v/use-wasm-ts?style=flat&colorA=000000&colorB=000000)](https://npmjs.com/package/use-wasm-ts)
+![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/Romainlg29/use-wasm/basic.yml?branch=main&colorA=000000&colorB=000000)
+![GitHub](https://img.shields.io/github/license/Romainlg29/use-wasm?&colorA=000000&colorB=000000)
+
 Use WebAssembly in React in a simple way with hooks and Typescript!
 
 ```bash
@@ -12,7 +16,7 @@ This package allows you to load and use your WebAssembly functions inside React 
 
 ```jsx
 import { FC } from 'react';
-import { useWasm } from '...';
+import { useWasm } from 'use-wasm-ts';
 
 const MyComponent: FC = () => {
     const {
