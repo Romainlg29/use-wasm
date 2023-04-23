@@ -33,3 +33,38 @@ const MyComponent: FC = () => {
 
 export default MyComponent;
 ```
+
+
+## API
+
+### useWasm
+
+```ts
+useWasm<T>(url: string, options?: useWasmOptions): {
+    isLoading: boolean;
+    fn: T;
+    module: WebAssembly.Module;
+    instance: WebAssembly.Instance;
+};
+```
+
+#### url
+
+Type: `string`
+
+The url of the WebAssembly file.
+
+#### options
+
+Type: `useWasmOptions`
+
+###### streaming: `boolean` (default: `false`)
+The streaming option allows you to load the WebAssembly file in streaming mode. Before using it, make sure that your server serves the file with the correct MIME type.
+
+###### fetchOptions: `RequestInit` (default: `{}`)
+The fetchOptions option allows you to pass options to the fetch function.
+
+
+## License
+
+MIT
