@@ -34,6 +34,8 @@ const MyComponent: FC = () => {
 export default MyComponent;
 ```
 
+Show a [live demo](https://codesandbox.io/p/sandbox/use-wasm-ts-yqce0x) on CodeSandbox.
+
 
 ## API
 
