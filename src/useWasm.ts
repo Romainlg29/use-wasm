@@ -1,10 +1,30 @@
 import { useEffect, useState } from 'react';
 
 export interface useWasmReturn<T> {
+	/**
+	 * The wasm exports
+	 */
 	fn: T;
+
+	/**
+	 * Is the wasm file loading
+	 */
 	isLoading: boolean;
+
+	/**
+	 * The wasm module
+	 */
 	module: WebAssembly.Module;
+
+	/**
+	 * The wasm instance
+	 */
 	instance: WebAssembly.Instance;
+
+	/**
+	 * The wasm memory
+	 */
+	memory: WebAssembly.Memory;
 }
 
 export interface useWasmOptions {
@@ -20,6 +40,17 @@ export interface useWasmOptions {
 	 * @default undefined
 	 */
 	fetchOptions?: RequestInit;
+
+	/**
+	 * Memory
+	 * Default: 256 initial, 512 maximum
+	 */
+	memory?: WebAssembly.Memory;
+
+	/**
+	 * Wasm environment
+	 */
+	env?: (memory: WebAssembly.Memory) => { [key: string]: any };
 }
 
 /**
@@ -37,6 +68,7 @@ export const useWasm = <T>(path: string, options?: useWasmOptions) => {
 		fn: {} as T,
 		module: {} as WebAssembly.Module,
 		instance: {} as WebAssembly.Instance,
+		memory: options?.memory ?? ({} as WebAssembly.Memory),
 	});
 
 	useEffect(() => {
@@ -56,6 +88,16 @@ export const useWasm = <T>(path: string, options?: useWasmOptions) => {
 			...p,
 			isLoading: true,
 		}));
+
+		/**
+		 * Create the memory
+		 */
+		const memory = options?.memory ?? new WebAssembly.Memory({ initial: 256, maximum: 512 });
+
+		/**
+		 * Create the env
+		 */
+		const env = options?.env?.(memory) ?? {};
 
 		(async () => {
 			/**
@@ -83,28 +125,48 @@ export const useWasm = <T>(path: string, options?: useWasmOptions) => {
 				/**
 				 * Streaming instantiation
 				 */
-				wa = await WebAssembly.instantiateStreaming(file);
+				wa = await WebAssembly.instantiateStreaming(file, {
+					js: {
+						memory,
+					},
+					env: {
+						...env,
+					}
+				});
 			} else {
 				/**
 				 * Buffer instantiation
 				 */
 				const buffer = await file.arrayBuffer();
-				wa = await WebAssembly.instantiate(buffer);
+				wa = await WebAssembly.instantiate(buffer, {
+					js: {
+						memory,
+					},
+					env: {
+						...env,
+					},
+				});
 			}
 
 			/**
-			 * Force the type of the exports to T
+			 * Type the exports
 			 */
-			const exports: T = wa.instance.exports as T;
+			type Exports<T extends {}> = T & { memory: WebAssembly.Memory };
+
+			/**
+			 * Force the type of the exports to Exports (with memory)
+			 */
+			const exports: Exports<{}> = wa.instance.exports as Exports<{}>;
 
 			/**
 			 * Set the exports as the function
 			 */
 			setWasm({
 				isLoading: false,
-				fn: exports,
+				fn: exports as T,
 				module: wa.module,
 				instance: wa.instance,
+				memory: exports.memory,
 			});
 		})();
 
@@ -113,8 +175,13 @@ export const useWasm = <T>(path: string, options?: useWasmOptions) => {
 			 * Clean up
 			 */
 			controller.abort();
+
+			/**
+			 * Clear the memory
+			 */
+			memory.grow(0);
 		};
-	}, [path, options]);
+	}, [path]);
 
 	return wasm;
 };

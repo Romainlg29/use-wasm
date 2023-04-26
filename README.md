@@ -47,6 +47,7 @@ useWasm<T>(url: string, options?: useWasmOptions): {
     fn: T;
     module: WebAssembly.Module;
     instance: WebAssembly.Instance;
+    memory: WebAssembly.Memory;
 };
 ```
 
@@ -65,6 +66,12 @@ The streaming option allows you to load the WebAssembly file in streaming mode. 
 
 ###### fetchOptions: `RequestInit` (default: `{}`)
 The fetchOptions option allows you to pass options to the fetch function.
+
+###### memory: `WebAssembly.Memory` (default: `{ initial: 256, maximum: 512 }`)
+The memory option allows you to pass a custom memory to the WebAssembly file.
+
+###### env: `(memory: WebAssembly.Memory) => { [key: string]: any }` (default: `{}`)
+The env option allows you to pass a custom environment to the WebAssembly file. The function takes the default / custom memory as an optionnal parameter and must return an object.
 
 
 ## License
