@@ -127,7 +127,7 @@ export const useWasm = <T>(path: string, options?: useWasmOptions) => {
 				 */
 				wa = await WebAssembly.instantiateStreaming(file, {
 					js: {
-						memory,
+						mem: memory,
 					},
 					env: {
 						...env,
@@ -140,7 +140,7 @@ export const useWasm = <T>(path: string, options?: useWasmOptions) => {
 				const buffer = await file.arrayBuffer();
 				wa = await WebAssembly.instantiate(buffer, {
 					js: {
-						memory,
+						mem: memory,
 					},
 					env: {
 						...env,
